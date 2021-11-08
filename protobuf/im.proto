@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option go_package = "protobuf";
+import "google/protobuf/empty.proto";
+
+service Im{
+    rpc CreateAccount(CreateAccountReq)returns(CreateAccountResp);                      // 创建IM帐号并绑定
+    rpc AddGroup(AddGroupReq)returns(AddGroupResp);                                     // 创建聊天群
+    rpc JoinGroup(JoinGroupReq)returns(google.protobuf.Empty);                          // 加入聊天群
+    rpc LeaveGroup(LeaveGroupReq)returns(google.protobuf.Empty);                        // 退出聊天群
+    rpc DeleteGroup(DeleteGroupReq)returns(google.protobuf.Empty);                      // 删除群
+    rpc AddFriend(AddFriendReq)returns(google.protobuf.Empty);                          // 添加好友
+    rpc SetBlacklistRelation(SetBlacklistRelationReq)returns(google.protobuf.Empty);    // 拉黑好友
+    rpc DeleteFriend(DeleteFriendReq)returns(google.protobuf.Empty);                    // 删除好友
+}
+
+message CreateAccountReq{
+    uint64 user_id = 1;
+    string name = 2;
+    string icon = 3;
+    string token = 4; // maxlength: 128
+    uint32 gender = 5; // 0:unknow 1:男 2:女
+}
+
+message CreateAccountResp{
+    string accid = 1;
+    string token = 2;
+    string name = 3;
+}
+
+message AddGroupReq{
+    string tname = 1;
+    string owner = 2;
+    string members = 3;
+    string msg = 4;
+    int32 magree = 5;
+    int32 joinmode = 6;
+}
+
+message AddGroupResp{
+    string tid = 1;
+}
+
+message DeleteGroupReq{
+    string tid = 1;
+    string owner = 2; // 群主accid
+}
+
+message AddFriendReq{
+    string accid = 1;
+    string faccid = 2;
+    int32 type = 3; // 1直接加好友，2请求加好友，3同意加好友，4拒绝加好友
+    string msg = 4;
+}
+
+message DeleteFriendReq{
+    string accid = 1;
+    string faccid = 2;
+}

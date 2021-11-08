@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option go_package = "protobuf";
+import "google/protobuf/empty.proto";
+import "github.com/metaverse/truss/deftree/googlethirdparty/annotations.proto";
+
+
+service User{
+    rpc UserInfo(UserInfoReq)returns(UserInfoResp){
+        option(google.api.http) = {
+            get: "/api/v1/user/{user_id}/info"
+        };
+    }
+}
+
+message LoginReq{
+    string account = 1;
+    string password = 2;
+}
+
+message LoginResp{
+    string access_token = 1;
+    string refresh_token = 2;
+}
+
+message UserInfoReq{
+    uint64 user_id = 1;
+}
+
+message UserInfoResp{
+    string name = 1;
+    string icon = 2;
+    string company = 3;
+}

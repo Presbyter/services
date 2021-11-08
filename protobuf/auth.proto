@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option go_package = "protobuf";
+import "google/protobuf/empty.proto";
+
+service Auth{
+    rpc GetCode(GetCodeReq)returns(GetCodeResp);
+    rpc GetToken(GetTokenReq)returns (GetTokenResp);
+    rpc RefreshToken(RefreshTokenReq)returns(RefreshTokenResp);
+    rpc BanToken(BanTokenReq)returns(google.protobuf.Empty);
+}
+
+message GetCodeReq{
+    string account = 1;
+    string password = 2;
+}
+
+message GetCodeResp{
+    string code = 1;
+}
+
+message GetTokenReq{
+    string code = 1;
+}
+
+message GetTokenResp{
+    string access_token = 1;
+    string refresh_token = 2;
+}
+
+message RefreshTokenReq{
+    string access_token = 1;
+    string refresh_token = 2;
+}
+
+message RefreshTokenResp{
+    string access_token = 1;
+    string refresh_token = 2;
+}
+
+message BanTokenReq{
+    oneof token_oneof{
+        string access_token = 1;
+        string refresh_token = 2;
+    }
+}
+
